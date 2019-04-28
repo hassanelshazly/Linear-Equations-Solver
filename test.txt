@@ -1,0 +1,69 @@
+4 
+5x+4y-9=7x-4y
+3x + 5z = 34
+-y - 8z = -19
+x - 4y + z = 16
+equation 1
+solve
+
+add 1 2
+
+
+solve
+
+
+solve
+substitute y 2 1
+num_vars
+solve
+equation 3
+
+num_vars
+
+equation 4
+substitute x2 3 1
+
+4
+2x1+3x2=16
+1x1+2x2=8
+3x1+1x2=13
+3x1+2x214
+solve
+add 2 1
+
+4
+2x1+3x2=16
+1x1+2x2=8
+3x1+1x2=13
+3x1+2x214
+solve
+D
+
+3
+2x1+3x2+4x3=16
+1x1+2x2+1x3=8
+5xbeata2+x3-x1+1xbeata2+2xyz+xx=13
+equation 3
+num_vars
+add 3 1
+
+3
+2x+3xy+4xx=16
+1x+2xy+1xx=8
+3x+1xy+2xx+xyz=13
+num_vars
+
+3
+2x1+3x2+4x3=16
+1x1+2x2+1x3=8
+3x1+1x2+2x3+x4=13
+equation 2
+
+
+
+3
+2x1+3x2+4x3=16
+1x1+2x2+1x3=8
+3x1+1x2+2x3+x4=13
+num_vars
+
