@@ -28,7 +28,7 @@
 #include <cctype>
 #include <set>
 #include <map>
-#include "../Matrix/matrix.h"
+#include "matrix.h"
 
 using std::vector;
 using std::string;
@@ -89,7 +89,7 @@ template <typename ValueType>
 string linear_equs<ValueType>::factor(string str)
 {
     vector<string> exp;
-    if(str == "") return "";
+    if(str == "" || str == "+" || str == "-") return str;
     int j = 0;
     for(int i=0; i < str.length(); i++)
         if(str[i] == '+' or str[i] == '-')
@@ -129,7 +129,7 @@ map<string, ValueType> linear_equs<ValueType>::init_apart(string& str, map<strin
         {
             string val = str.substr(index, i-index);
             int index_key = i+1;
-            while(str[index_key] != '+' && str[index_key] != '-' && str[index_key] != '=')
+            while(str[index_key] != '+' && str[index_key] != '-' && index_key < str.length())
                 index_key++; 
             string key = str.substr(i,index_key-i);
             index = index_key;
@@ -144,7 +144,7 @@ map<string, ValueType> linear_equs<ValueType>::init_apart(string& str, map<strin
                 if(right) m[key] = tmp;
                 else m[key] = -tmp;
             used.push_back(val+key);
-            i+= key.length()-1;
+            i += key.length()-1;
         }
         if(str[i] == '=')
             throw std::out_of_range("parse error: mutipule \"=\"");
