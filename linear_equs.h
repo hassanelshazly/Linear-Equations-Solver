@@ -40,24 +40,25 @@ class linear_equs
 public:
     linear_equs();
 
-    linear_equs<ValueType>& push_equ(string str) noexcept;
-    string get_equ(size_t index) const;
+    linear_equs<ValueType>& push_equ(string str) ;
+    string get_equ(size_t index) ;
 
-    vector<ValueType> get_var_coffs(const string var) noexcept;
-    size_t get_num_of_vars() const noexcept;
+    vector<ValueType> get_var_coffs(const string var) ;
+    size_t get_num_of_vars()  ;
 
     string add_equs(size_t equ1, size_t equ2) ;
     string subtract_equs(size_t equ1, size_t equ2) ;
     string substitute_equs(string var, size_t equ1, size_t equ2) ;
-    matrix<ValueType> get_coffs_mat() const noexcept;
+    matrix<ValueType> get_coffs_mat()  ;
 
-    ValueType get_coffs_det() const noexcept;
-    matrix<ValueType> get_var_mat(string var) const;
-    ValueType get_var_det(string var) const;
-    map<string, ValueType> solve() const;
+    ValueType get_coffs_det()  ;
+    matrix<ValueType> get_var_mat(string var) ;
+    ValueType get_var_det(string var) ;
+    map<string, ValueType> solve_by_cramer_method() ;
+    map<string, ValueType> solve_by_backSub() ;
 
 private:
-    size_t num_of_vars;
+    bool init_flag;
     size_t num_of_equs;
     std::set<string> vars;
 
@@ -70,9 +71,7 @@ private:
     string factor(string str);
     linear_equs<ValueType>& init_coffs();
     map<string, ValueType> init_equ(string str);
-    linear_equs<ValueType>& make_equ(map<string, ValueType> equ);
-    string convert(map<string, ValueType> equ) const noexcept;
-
+    string convert(map<string, ValueType> equ) ;
     map<string, ValueType> init_apart(string& str, map<string, ValueType>& m, vector<string>& used, bool right);
 };
 
@@ -89,7 +88,7 @@ template <typename ValueType>
 string linear_equs<ValueType>::factor(string str)
 {
     vector<string> exp;
-    if(str == "" || str == "+" || str == "-") return str;
+    if(str == "" ) return str;
     int j = 0;
     for(int i=0; i < str.length(); i++)
         if(str[i] == '+' or str[i] == '-')
@@ -109,7 +108,7 @@ ValueType linear_equs<ValueType>::evaluate(string str)
     for(int i=0; i < str.length(); i++)
         if(str[i] == '+' or str[i] == '-')
         {
-            exp.push_back(str.substr(j,i-j));
+            if(str.substr(j,i-j) != "") exp.push_back(str.substr(j,i-j));
             j=i;
         }
     exp.push_back(str.substr(j,str.length()-j));
@@ -129,7 +128,7 @@ map<string, ValueType> linear_equs<ValueType>::init_apart(string& str, map<strin
         {
             string val = str.substr(index, i-index);
             int index_key = i+1;
-            while(str[index_key] != '+' && str[index_key] != '-' && index_key < str.length())
+            while(str[index_key] != '+' && str[index_key] != '-' && str[index_key] != '=' && index_key < str.length())
                 index_key++; 
             string key = str.substr(i,index_key-i);
             index = index_key;
@@ -157,87 +156,58 @@ map<string, ValueType> linear_equs<ValueType>::init_equ(string str)
 {
     map<string, ValueType> m;
     vector<string> used;
-    for(int i = 0; i < str.length(); i++)
-        if(str[i] == '=')
-        {
-        string right = str.substr(0, i);
-        init_apart(right, m, used, true);
-        for(const string& s : used)
-            right.erase(right.find(s), s.length());
-        if(right != "")
-        m["="] = -evaluate(right);
-        used.clear();
-        string left = str.substr(i+1);
-        init_apart(left, m, used, false);
-        for(const string& s : used)
-            left.erase(left.find(s), s.length());
-        if(left != "")
-            m["="] += evaluate(left);
-        }
+
+    int i = str.find('=');
+    string right = str.substr(0, i);
+    init_apart(right, m, used, true);
+    for(const string& s : used)
+        right.erase(right.find(s), s.length());
+    m["="] = ValueType();
+    if(right != "")
+        m["="] -= evaluate(right);
+    used.clear();
+
+    string left = str.substr(i+1);
+    init_apart(left, m, used, false);
+    for(const string& s : used)
+        left.erase(left.find(s), s.length());
+    if(left != "")
+        m["="] += evaluate(left);
+
     for(const auto& item : m)
         if(item.first != "=")
             vars.insert(item.first);
+    sols.push_back(m["="]);
     equs.push_back(m);
+    init_flag = false;
+    num_of_equs++;
     return m;
 }
 
 template <typename ValueType>
 linear_equs<ValueType>& linear_equs<ValueType>::init_coffs()
 {
-    coffs.resize(num_of_equs, num_of_vars);
-    int i = 0, j = 0;
-    for(const auto& equ : equs)
+    if(!init_flag)
     {
-        for(const auto& item : equ)
-            if(item.first != "=")
-                coffs[i][j++] = item.second;
-        j = 0; i++;
+        coffs.resize(num_of_equs, vars.size());
+        for(auto& item : equs)
+            for(const auto& var : vars)
+                if(item.find(var) == item.end())
+                    item[var] = ValueType();
+        int i = 0, j = 0;
+        for(const auto& equ : equs)
+        {
+            for(const auto& item : equ)
+                if(item.first != "=")
+                    coffs[i][j++] = item.second;
+            j = 0; i++;
+        }
+        init_flag = true;
     }   
 }
 
 template <typename ValueType>
-linear_equs<ValueType>& linear_equs<ValueType>::make_equ(map<string, ValueType> equ)
-{
-    /* vaild for any variables names
-     * must call init_coffs() before any operation on coffs */
-    sols.push_back(equ["="]);
-    num_of_vars = vars.size();
-    num_of_equs++;
-    for(auto& item : equs)
-        for(const auto& var : vars)
-            if(item.find(var) == item.end())
-                item[var] = ValueType();
-    init_coffs();
-    return *this;
-    /* vaild for x{number} only */
-
-    // sols.push_back(equ["="]);
-    // auto it = equ.begin();
-    // std::advance(it, equ.size()-1);
-    // int vars = atoi(it->first.substr(1).c_str());
-    // if(vars > num_of_vars)
-    // {
-    //     num_of_vars = vars;
-    //     coffs.resize(coffs.getR(), num_of_vars);
-    // }
-    // vector<ValueType> vec(num_of_vars);
-    // for(int i=0; i<vec.size(); i++)
-    // {
-    //     std::ostringstream os;
-    //     os << "x" << i+1 ;
-    //     string var_name = os.str();
-    //     if(equ.find(var_name) != equ.end())
-    //         vec[i] = equ[var_name];
-    //     else
-    //         vec[i] = ValueType();
-    // }
-    // coffs.push_row(vec);
-    // num_of_equs++;
-    // return vec;
-}
-
-template <typename ValueType>
-string linear_equs<ValueType>::convert(map<string, ValueType> equ) const noexcept
+string linear_equs<ValueType>::convert(map<string, ValueType> equ)  
 {
     std::ostringstream os ;
     for(const auto& item : equ)
@@ -256,24 +226,26 @@ string linear_equs<ValueType>::convert(map<string, ValueType> equ) const noexcep
 
 template <typename ValueType>
 linear_equs<ValueType>::linear_equs()
-    : num_of_vars(0), num_of_equs(0), coffs(matrix<ValueType>()), sols(vector<ValueType>()) {}
+    : init_flag(false), num_of_equs(0), coffs(matrix<ValueType>()), sols(vector<ValueType>()) {}
 
 template <typename ValueType>
-linear_equs<ValueType>& linear_equs<ValueType>::push_equ(string str) noexcept
+linear_equs<ValueType>& linear_equs<ValueType>::push_equ(string str) 
 {
-    make_equ(init_equ(str));
+    init_equ(str);
     return *this;
 }
 
 template <typename ValueType>
-string linear_equs<ValueType>::get_equ(size_t index) const
+string linear_equs<ValueType>::get_equ(size_t index) 
 {
+    init_coffs();
     return convert(equs[index]);
 }
 
 template <typename ValueType>
-vector<ValueType> linear_equs<ValueType>::get_var_coffs(const string var) noexcept
+vector<ValueType> linear_equs<ValueType>::get_var_coffs(const string var) 
 {
+    init_coffs();
     vector<ValueType> vec;
     for(auto& item : equs)
         if(item.find(var) != item.end())
@@ -284,14 +256,15 @@ vector<ValueType> linear_equs<ValueType>::get_var_coffs(const string var) noexce
 }
 
 template <typename ValueType>
-size_t linear_equs<ValueType>::get_num_of_vars() const noexcept
+size_t linear_equs<ValueType>::get_num_of_vars()  
 {
-    return num_of_vars;
+    return vars.size();
 }
 
 template <typename ValueType>
 string linear_equs<ValueType>::add_equs(size_t equ1, size_t equ2) 
 {
+    init_coffs();
     vector<ValueType> v1 = coffs.get_row(equ1);
     vector<ValueType> v2 = coffs.get_row(equ2);
     vector<ValueType> res(v1.size());
@@ -309,6 +282,7 @@ string linear_equs<ValueType>::add_equs(size_t equ1, size_t equ2)
 template <typename ValueType>
 string linear_equs<ValueType>::subtract_equs(size_t equ1, size_t equ2) 
 {
+    init_coffs();
     vector<ValueType> v1 = coffs.get_row(equ1);
     vector<ValueType> v2 = coffs.get_row(equ2);
     vector<ValueType> res(v1.size());
@@ -326,6 +300,7 @@ string linear_equs<ValueType>::subtract_equs(size_t equ1, size_t equ2)
 template <typename ValueType>
 string linear_equs<ValueType>::substitute_equs(string var, size_t equ1, size_t equ2) 
 {
+    init_coffs();
     vector<ValueType> v1 = coffs.get_row(equ1);
     vector<ValueType> v2 = coffs.get_row(equ2);
     ValueType coff1 = equs[equ1][var];
@@ -334,21 +309,10 @@ string linear_equs<ValueType>::substitute_equs(string var, size_t equ1, size_t e
     ValueType sol2 = sols[equ2] ;
     map<string, ValueType> res_map;
 
-    for(auto& item : v2)
-        item *= (coff1 / coff2 );
-    sol2 *= (coff1 / coff2 );
-    if((coff1 > 0 && coff2 > 0) || (coff1 < 0 && coff2 < 0))
-    {
-        for(int i = 0; i < v1.size(); i++)
-            v1[i] -= v2[i];
-        sol1 -= sol2;
-    }
-    else
-    {
-        for(int i = 0; i < v1.size(); i++)
-            v1[i] += v2[i];
-        sol1 += sol2;
-    }
+    for(int i = 0; i < v1.size(); i++)
+        v1[i] += v2[i] * (-coff1 / coff2);
+    sol2 += sol1 * (-coff1 / coff2);
+
     vector<string> var_names ;
     std::copy(vars.begin(), vars.end(), std::back_inserter(var_names));
     for(int i = 0; i < v1.size(); i++)
@@ -358,20 +322,23 @@ string linear_equs<ValueType>::substitute_equs(string var, size_t equ1, size_t e
 }
 
 template <typename ValueType>
-matrix<ValueType> linear_equs<ValueType>::get_coffs_mat() const noexcept
+matrix<ValueType> linear_equs<ValueType>::get_coffs_mat()  
 {
+    init_coffs();
     return coffs ;
 }
 
 template <typename ValueType>
-ValueType linear_equs<ValueType>::get_coffs_det() const noexcept
+ValueType linear_equs<ValueType>::get_coffs_det()  
 {
-    return determinant(coffs) ;
+    init_coffs();
+    return det(coffs) ;
 }
 
 template <typename ValueType>
-matrix<ValueType> linear_equs<ValueType>::get_var_mat(string var) const
+matrix<ValueType> linear_equs<ValueType>::get_var_mat(string var) 
 {
+    init_coffs();
     matrix<ValueType> mat = coffs;
     vector<string> var_names ;
     std::copy(vars.begin(), vars.end(), std::back_inserter(var_names));
@@ -381,14 +348,16 @@ matrix<ValueType> linear_equs<ValueType>::get_var_mat(string var) const
 }
 
 template <typename ValueType>
-ValueType linear_equs<ValueType>::get_var_det(string var) const
+ValueType linear_equs<ValueType>::get_var_det(string var) 
 {
-    return determinant(get_var_mat(var));
+    init_coffs();
+    return det(get_var_mat(var));
 }
 
 template <typename ValueType>
-map<string, ValueType> linear_equs<ValueType>::solve() const
+map<string, ValueType> linear_equs<ValueType>::solve_by_cramer_method() 
 {
+    init_coffs();
     map<string, ValueType> solution;
     ValueType d_val = get_coffs_det();
     for(const string& var : vars)
@@ -399,4 +368,15 @@ map<string, ValueType> linear_equs<ValueType>::solve() const
     return solution;
 }
 
+template <typename ValueType>
+map<string, ValueType> linear_equs<ValueType>::solve_by_backSub() 
+{
+    init_coffs();
+    map<string, ValueType> solution;
+    vector<ValueType> sol = backSub(coffs, sols);
+    int i = 0;
+    for(const string& var : vars)
+        solution.insert(std::make_pair(var, sol[i++]));
+    return solution;
+}
 #endif

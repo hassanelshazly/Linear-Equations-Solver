@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <random>
 
-#define n_equs 10
+#define n_equs 100
 #define v_begin -5
 #define v_end 5
 
