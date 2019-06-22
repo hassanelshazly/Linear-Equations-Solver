@@ -644,7 +644,7 @@ vector<ValueType> backSub(matrix<ValueType> m, vector<ValueType> v)
         m.swap_rows(i, index_max);
         for(int j = i+1; j < m.get_rows(); j++)
         {
-            m[j] += m[i] * (-m[j][i]/m[i][i]);
+            m[j] += m[i] * (-m[j][i] / m[i][i]);
             m[j][i] = 0;
         }
     }

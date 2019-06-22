@@ -23,6 +23,7 @@ int main()
         int n; cin >> n;
         cin.ignore(1000,'\n');
         string str; 
+
         start = clock();
         for(int i = 0; i < n; i++)
         {
@@ -30,7 +31,9 @@ int main()
             ln.push_equ(remove_spaces(str));
         }
         end = clock();
+
         cout << "push time:" << (double)(end-start)/CLOCKS_PER_SEC << endl ;
+        
         cin >> str ;
         if(str == "num_vars")
         {
