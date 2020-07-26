@@ -1,0 +1,7 @@
+# Files ignored by git repositories
+
+obj/
+gitignore/
+tests/test.txt
+tests/test1000.text
+*.out
