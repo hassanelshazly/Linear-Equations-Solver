@@ -12,7 +12,7 @@ namespace vector_arithmetic_operations
     {
         size_t size = vec1.size();
         if(size != vec2.size())
-            throw std::length_error("vector_arithmetic -> vectors must be the same size");
+            throw std::length_error("vector_arithmetic::addition -> vectors must be the same size");
         for(int i = 0; i < size; i++)
             vec1[i] += vec2[i];
         return vec1;
@@ -23,7 +23,7 @@ namespace vector_arithmetic_operations
     {
         size_t size = vec1.size();
         if(size != vec2.size())
-            throw std::length_error("vector_arithmetic -> vectors must be the same size");
+            throw std::length_error("vector_arithmetic::subtraction -> vectors must be the same size");
         for(int i = 0; i < size; i++)
             vec1[i] -= vec2[i];
         return vec1;
@@ -34,7 +34,7 @@ namespace vector_arithmetic_operations
     {
         size_t size = vec1.size();
         if(size != vec2.size())
-            throw std::length_error("vector_arithmetic -> vectors must be the same size");
+            throw std::length_error("vector_arithmetic::multiplication -> vectors must be the same size");
         for(int i = 0; i < size; i++)
             vec1[i] *= vec2[i];
         return vec1;
@@ -45,7 +45,7 @@ namespace vector_arithmetic_operations
     {
         size_t size = vec1.size();
         if(size != vec2.size())
-            throw std::length_error("vector_arithmetic -> vectors must be the same size");
+            throw std::length_error("vector_arithmetic::devision -> vectors must be the same size");
         for(int i = 0; i < size; i++)
             vec1[i] /= vec2[i];
         return vec1;
@@ -56,7 +56,7 @@ namespace vector_arithmetic_operations
     {
         size_t size = vec1.size();
         if(size != vec2.size())
-            throw std::length_error("vector_arithmetic -> vectors must be the same size");
+            throw std::length_error("vector_arithmetic::addition -> vectors must be the same size");
         vector<ValueType> res(size);
         for(int i = 0; i < size; i++)
             res[i] = vec1[i] + vec2[i];
@@ -68,7 +68,7 @@ namespace vector_arithmetic_operations
     {
         size_t size = vec1.size();
         if(size != vec2.size())
-            throw std::length_error("vector_arithmetic -> vectors must be the same size");
+            throw std::length_error("vector_arithmetic::subtraction -> vectors must be the same size");
         vector<ValueType> res(size);
         for(int i = 0; i < size; i++)
             res[i] = vec1[i] - vec2[i];
@@ -80,7 +80,7 @@ namespace vector_arithmetic_operations
     {
         size_t size = vec1.size();
         if(size != vec2.size())
-            throw std::length_error("vector_arithmetic -> vectors must be the same size");
+            throw std::length_error("vector_arithmetic::multiplication -> vectors must be the same size");
         vector<ValueType> res(size);
         for(int i = 0; i < size; i++)
             res[i] = vec1[i] * vec2[i];
@@ -92,7 +92,7 @@ namespace vector_arithmetic_operations
     {
         size_t size = vec1.size();
         if(size != vec2.size())
-            throw std::length_error("vector_arithmetic -> vectors must be the same size");
+            throw std::length_error("vector_arithmetic::devision -> vectors must be the same size");
         vector<ValueType> res(size);
         for(int i = 0; i < size; i++)
             res[i] = vec1[i] / vec2[i];
@@ -185,7 +185,7 @@ namespace vector_arithmetic_operations
     {
         size_t size = vec1.size();
         if(size != vec2.size())
-            throw std::length_error("vector_arithmetic -> vectors must be the same size");
+            throw std::length_error("vector_arithmetic::dot_product -> vectors must be the same size");
         ValueType res = ValueType();
         for(int i = 0; i < size; i++)
             res += vec1[i] * vec2[i] ;

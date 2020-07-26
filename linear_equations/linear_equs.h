@@ -332,7 +332,7 @@ template <typename ValueType>
 ValueType linear_equs<ValueType>::get_coffs_det()  
 {
     init_coffs();
-    return det(coffs) ;
+    return determinant(coffs) ;
 }
 
 template <typename ValueType>
@@ -351,11 +351,11 @@ template <typename ValueType>
 ValueType linear_equs<ValueType>::get_var_det(string var) 
 {
     init_coffs();
-    return det(get_var_mat(var));
+    return determinant(get_var_mat(var));
 }
 
 template <typename ValueType>
-map<string, ValueType> linear_equs<ValueType>::solve_by_cramer_method() 
+map<string, ValueType> linear_equs<ValueType>::solve_by_cramer_method()  
 {
     init_coffs();
     map<string, ValueType> solution;
@@ -373,7 +373,7 @@ map<string, ValueType> linear_equs<ValueType>::solve_by_backSub()
 {
     init_coffs();
     map<string, ValueType> solution;
-    vector<ValueType> sol = backSub(coffs, sols);
+    vector<ValueType> sol = back_substitution(coffs, sols);
     int i = 0;
     for(const string& var : vars)
         solution.insert(std::make_pair(var, sol[i++]));

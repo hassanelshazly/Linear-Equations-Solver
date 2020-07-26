@@ -82,7 +82,7 @@ int main()
         else if(str == "solve")
         {
             start = clock();
-            map<string, long double> m = ln.solve_by_backSub();
+            map<string, long double> m = ln.solve_by_backSub() ; 
             for(const auto& item : m)
                 cout << item.first << "=" << item.second << endl;
             end = clock();

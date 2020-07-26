@@ -11,7 +11,7 @@
 
 using namespace std;
 
-int main()
+int main_rondom()
 {
     ofstream file;
     ostringstream file_name ;
