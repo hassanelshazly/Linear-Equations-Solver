@@ -18,7 +18,8 @@ SOURCES  := $(wildcard ${SRC_DIR}/*.cpp)
 INCLUDES := -Imatrix \
 			-Iinclude \
 			-Ivector_arithmetic \
-			-Ilinear_equations
+			-Ilinear_equations \
+			-Ilinear_equs
 
 CC 		 = g++
 CPPFLAGS = $(INCLUDES) -MMD -MP
