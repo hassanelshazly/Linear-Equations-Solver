@@ -3,10 +3,12 @@
 
 #include <string>
 
-template <typename ValueType>
-class term 
+using std::string;
+
+template <typename value_t>
+class term
 {
-    public:
+public:
     /**
      * Default constructor
      */
@@ -15,136 +17,159 @@ class term
     /**
      * Copy constructor
      */
-    term(const term& tm);
-    
+    term(const term &tm);
+
     /**
      * Construct term with the default coff value
      */
-    term(const std::string& var);
-    
+    term(const string &var);
+
     /**
      * Construct term with a given name and coff value
      */
-    term(const std::string& var, ValueType coff);
+    term(const string &var, value_t coff);
 
     /**
      * Assignment operator
      * @return reference to the object
      */
-    term& operator=(const term& tm);
+    term &operator=(const term &tm);
 
     /**
      * Assignment coff only
      * @return reference to the object
      */
-    term& operator=(ValueType val);
+    term &operator=(value_t val);
 
     /**
      * @return variable name
      */
-    std::string get_var();
-    
+    string get_var();
+
     /**
      * @return coff value
      */
-    ValueType get_coff();
+    value_t get_coff();
 
     /**
      * Change the value of the coff 
      * @return reference to the object
      */
-    term& set_coff(ValueType val);
+    term &set_coff(value_t val);
 
     /**
      * Change the value of variable name 
      * @return reference to the object
      */
-    term& set_var(std::string var_name);
+    term &set_var(string var_name);
 
     /**
      * Add val to the coff
      * @return reference to the object
      */
-    term& operator+=(ValueType val);
+    term &operator+=(value_t val);
 
     /**
      * Subract val to the coff
      * @return reference to the object
      */
-    term& operator-=(ValueType val);
-    
+    term &operator-=(value_t val);
+
     /**
      * Multiply val with the coff
      * @return reference to the object
      */
-    term& operator*=(ValueType val);
-    
+    term &operator*=(value_t val);
+
     /**
      * Divide coff on val
      * @return reference to the object
      */
-    term& operator/=(ValueType val);
+    term &operator/=(value_t val);
 
     /**
-     * Add one to the coff
+     * Add one to the coff prefix++
      * @return reference to the object
      */
-    term& operator++();
-    
-    /**
-     * Subtract one from the coff
-     * @return reference to the object
-     */
-    term& operator--();
+    term &operator++();
 
-     /**
+    /**
+     * Subtract one from the coff ptrfix--
+     * @return reference to the object
+     */
+    term &operator--();
+
+    /**
+     * Add one to the coff postfix++
+     * @return reference to the object
+     */
+    term &operator++(int);
+
+    /**
+     * Subtract one from the coff postfix--
+     * @return reference to the object
+     */
+    term &operator--(int);
+
+    /**
+     * unary plus
+     * @return reference to the object
+     */
+    term &operator+();
+
+    /**
+     * unary minus
+     * @return reference to the object
+     */
+    term &operator-();
+
+    /**
      * @return true if the coffs are equal
      */
-    bool operator==(ValueType val);
+    bool operator==(value_t val);
 
-     /**
+    /**
      * @return true if the coffs are not equal
      */
-    bool operator!=(ValueType val);
+    bool operator!=(value_t val);
 
     /**
      * Add the two terms
      * @throw  out_of_range() if the terms are not the same
      * @return reference to the calling object
      */
-    term& operator+=(const term& tm);
+    term &operator+=(const term &tm);
 
     /**
      * Subtract the two terms
      * @throw  out_of_range() if the terms are not the same
      * @return reference to the calling object
      */
-    term& operator-=(const term& tm);
-    
+    term &operator-=(const term &tm);
+
     /**
      * Multiply the two terms
      * @throw  out_of_range() if the terms are not the same
      * @return reference to the calling object
      */
-    term& operator*=(const term& tm);
-    
+    term &operator*=(const term &tm);
+
     /**
      * Divide the two terms
      * @throw  out_of_range() if the terms are not the same
      * @return reference to the calling object
      */
-    term& operator/=(const term& tm);
+    term &operator/=(const term &tm);
 
-     /**
+    /**
       * @return true if the two terms are equal
       */
-    bool operator==(const term& tm);
+    bool operator==(const term &tm);
 
-     /**  
+    /**  
       * @return true if the two terms are not equal
       */
-    bool operator!=(const term& tm);
-
+    bool operator!=(const term &tm);
 
     /**************************************************************************
      *************  Static and friend functions and operators  ****************
@@ -153,67 +178,71 @@ class term
     /**
      * @return a new object results from addition
      */
-    template<typename T> friend
-    term operator+(term tm, ValueType val);
+    template <typename T>
+    friend term<T> operator+(term<T> tm, T val);
 
     /**
      * @return a new object results from subtraction
      */
-    template<typename T> friend
-    term operator-(term tm, ValueType val);
+    template <typename T>
+    friend term<T> operator-(term<T> tm, T val);
 
     /**
      * @return a new object results from multipliction
      */
-    template<typename T> friend
-    term operator*(term tm, ValueType val);
+    template <typename T>
+    friend term<T> operator*(term<T> tm, T val);
 
     /**
      * @return a new object results from Division
      */
-    template<typename T> friend
-    term operator/(term tm, ValueType val);
+    template <typename T>
+    friend term<T> operator/(term<T> tm, T val);
 
     /**
      * Add the two terms
      * @throw  out_of_range() if the terms are not the same
      * @return a new object results from addition
      */
-    template<typename T> friend
-    term operator+(term tm1, term tm2);
+    template <typename T>
+    friend term<T> operator+(term<T> tm1, term<T> tm2);
 
     /**
      * Subtract the two terms
      * @throw  out_of_range() if the terms are not the same
      * @return a new object results from subtraction
      */
-    template<typename T> friend
-    term operator-(term tm1, term tm2);
-    
+    template <typename T>
+    friend term<T> operator-(term<T> tm1, term<T> tm2);
+
     /**
      * Multiply the two terms
      * @throw  out_of_range() if the terms are not the same
      * @return a new object results from multipliction
      */
-    template<typename T> friend
-    term operator*(term tm1, term tm2);
-    
+    template <typename T>
+    friend term<T> operator*(term<T> tm1, term<T> tm2);
+
     /**
      * Divide the two terms
      * @throw  out_of_range() if the terms are not the same
      * @return a new object results from Division
      */
-    template<typename T> friend
-    term operator/(term tm1, term tm2);
+    template <typename T>
+    friend term<T> operator/(term<T> tm1, term<T> tm2);
 
-    private:
-    std::string var;
-    ValueType coff ;
-}
+    /**
+     * Overloads << operator to print term in the standard format as a native type.
+     */
+    template <typename T>
+    friend std::ostream &operator<<(std::ostream &os, const term<T> &tm);
+
+private:
+    string var;
+    value_t coff;
+};
 
 // include implemention
 #include "term_impl.h"
 
 #endif // End of the file
-
-
