@@ -3,7 +3,6 @@
  *
  * Redistribution, modification or use of this software in source or binary
  * forms is permitted as long as the files maintain this copyright.
- * Hassan El-shazly is not liable for any misuse of this material. 
  *
  *****************************************************************************/
 /**
@@ -23,7 +22,6 @@
 
 #ifndef _MAREIX_H_
 #define _MAREIX_H_
-
 
 #include "matrix_def.h"
 #include "matrix_impl.h"
