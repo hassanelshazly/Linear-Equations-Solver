@@ -20,6 +20,11 @@ public:
     term(const term &tm);
 
     /**
+     * Move constructor
+     */
+    term(const term &&tm);
+
+    /**
      * Construct term with the default coff value
      */
     term(const string &var);

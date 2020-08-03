@@ -20,6 +20,13 @@ term<value_t>::term(const term<value_t> &tm)
 }
 
 template <typename value_t>
+term<value_t>::term(const term<value_t> &&tm)
+    : var(move(tm.var)), coff(move(tm.coff))
+{
+    // do nothing
+}
+
+template <typename value_t>
 term<value_t>::term(const string &var)
     : var(var), coff(value_t())
 {
