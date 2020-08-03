@@ -647,7 +647,6 @@ template <typename ValueType>
 vector<ValueType> back_substitution(matrix<ValueType> mat, vector<ValueType> vec)
 {
     using namespace vector_arithmetic_operations;
-    std::cout << mat;
     if (mat.get_rows() != mat.get_cols())
         throw std::length_error("back_substitution -> check matrix dimentions");
     mat.push_col(vec);
@@ -670,20 +669,13 @@ vector<ValueType> back_substitution(matrix<ValueType> mat, vector<ValueType> vec
             mat[j][i] = 0;
         }
     }
-    std::cout << mat;
     vec = mat.get_col(mat.get_cols() - 1);
-    for (const auto &i : vec)
-        std::cout << i << " ";
-    std::cout << "\n";
     for (int i = mat.get_rows() - 1; i >= 0; i--)
     {
         for (int j = i + 1; j < mat.get_rows(); j++)
             vec[i] -= mat[i][j] * vec[j];
         vec[i] /= mat[i][i];
     }
-    for (const auto &i : vec)
-        std::cout << i << " ";
-    std::cout << "\n";
     return vec;
 }
 
