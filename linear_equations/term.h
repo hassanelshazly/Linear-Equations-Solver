@@ -44,12 +44,12 @@ public:
     /**
      * @return variable name
      */
-    string get_var();
+    string get_var() const;
 
     /**
      * @return coff value
      */
-    value_t get_coff();
+    value_t get_coff() const;
 
     /**
      * Change the value of the coff 
@@ -126,12 +126,12 @@ public:
     /**
      * @return true if the coffs are equal
      */
-    bool operator==(value_t val);
+    bool operator==(value_t val) const;
 
     /**
      * @return true if the coffs are not equal
      */
-    bool operator!=(value_t val);
+    bool operator!=(value_t val) const;
 
     /**
      * Add the two terms
@@ -164,12 +164,52 @@ public:
     /**
       * @return true if the two terms are equal
       */
-    bool operator==(const term &tm);
+    bool operator==(const term &tm) const;
 
     /**  
       * @return true if the two terms are not equal
       */
-    bool operator!=(const term &tm);
+    bool operator!=(const term &tm) const;
+
+    /**
+     * @return true if var > tm.var
+     */
+    bool operator>(const term &tm) const;
+
+    /**
+     * @return true if var < tm.var
+     */
+    bool operator<(const term &tm) const;
+
+    /**
+     * @return true if var >= tm.var
+     */
+    bool operator>=(const term &tm) const;
+
+    /**
+      * @return true if var <= tm.var
+      */
+    bool operator<=(const term &tm) const;
+
+    /**
+     * @return true if coff > val
+     */
+    bool operator>(value_t val) const;
+
+    /**
+     * @return true if coff < val
+     */
+    bool operator<(value_t val) const;
+
+    /**
+     * @return true if coff >= val
+     */
+    bool operator>=(value_t val) const;
+
+    /**
+     * @return true if coff <= val
+     */
+    bool operator<=(value_t val) const;
 
     /**************************************************************************
      *************  Static and friend functions and operators  ****************
@@ -232,7 +272,7 @@ public:
     friend term<T> operator/(term<T> tm1, term<T> tm2);
 
     /**
-     * Overloads << operator to print term in the standard format as a native type.
+     * Overloads << operator to print term as a native type.
      */
     template <typename T>
     friend std::ostream &operator<<(std::ostream &os, const term<T> &tm);

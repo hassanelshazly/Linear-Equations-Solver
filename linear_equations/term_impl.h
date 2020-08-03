@@ -49,13 +49,13 @@ inline term<value_t> &term<value_t>::operator=(value_t val)
 }
 
 template <typename value_t>
-inline string term<value_t>::get_var()
+inline string term<value_t>::get_var() const
 {
     return var;
 }
 
 template <typename value_t>
-inline value_t term<value_t>::get_coff()
+inline value_t term<value_t>::get_coff() const
 {
     return coff;
 }
@@ -145,15 +145,63 @@ inline term<value_t> &term<value_t>::operator-()
 }
 
 template <typename value_t>
-inline bool term<value_t>::operator==(value_t val)
+inline bool term<value_t>::operator==(value_t val) const
 {
     return coff == val;
 }
 
 template <typename value_t>
-inline bool term<value_t>::operator!=(value_t val)
+inline bool term<value_t>::operator!=(value_t val) const
 {
     return coff != val;
+}
+
+template <typename value_t>
+inline bool term<value_t>::operator>(const term &tm) const
+{
+    return var > tm.var;
+}
+
+template <typename value_t>
+inline bool term<value_t>::operator<(const term &tm) const
+{
+    return var < tm.var;
+}
+
+template <typename value_t>
+inline bool term<value_t>::operator>=(const term &tm) const
+{
+    return var >= tm.var;
+}
+
+template <typename value_t>
+inline bool term<value_t>::operator<=(const term &tm) const
+{
+    return var <= tm.var;
+}
+
+template <typename value_t>
+inline bool term<value_t>::operator>(value_t val) const
+{
+    return coff > val;
+}
+
+template <typename value_t>
+inline bool term<value_t>::operator<(value_t val) const
+{
+    return coff < val;
+}
+
+template <typename value_t>
+inline bool term<value_t>::operator>=(value_t val) const
+{
+    return coff >= val;
+}
+
+template <typename value_t>
+inline bool term<value_t>::operator<=(value_t val) const
+{
+    return coff <= val;
 }
 
 template <typename value_t>
@@ -193,13 +241,13 @@ inline term<value_t> &term<value_t>::operator/=(const term<value_t> &tm)
 }
 
 template <typename value_t>
-inline bool term<value_t>::operator==(const term<value_t> &tm)
+inline bool term<value_t>::operator==(const term<value_t> &tm) const
 {
     return var == tm.var && coff == tm.coff;
 }
 
 template <typename value_t>
-inline bool term<value_t>::operator!=(const term<value_t> &tm)
+inline bool term<value_t>::operator!=(const term<value_t> &tm) const
 {
     return !(*this == tm);
 }
