@@ -22,7 +22,7 @@ INCLUDES := -Imatrix \
 			-Ilinear_equs
 
 CC 		 = g++
-CPPFLAGS = $(INCLUDES) -MMD -MP
+CPPFLAGS = $(INCLUDES) -MMD -MP -fpermissive -w
 
 OBJS := $(SOURCES:.cpp=.o)
 OBJS := $(patsubst ${SRC_DIR}/%,${OBJ_DIR}/%,$(OBJS))
