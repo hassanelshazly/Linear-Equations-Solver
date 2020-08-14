@@ -3,5 +3,5 @@
 obj/
 gitignore/
 tests/test.txt
-tests/test1000.text
+tests/test_1000.txt
 *.out
