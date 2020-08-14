@@ -1,21 +1,15 @@
-/** 
- * Now, the input can be in any format and the variables can be in any format with some restrictions
- * no parentesis are allowed
- * no spaces are allowed
- * no special characters are allowed including * / ^ % except '_' undersore
- * variables can't start with a number & can't contain any special characters
- * to solve the system or to get any carmer coff, the number of variables must be euaql to the number of equs
- * ex. for vaild equtions
- *      "2x1+3x2+4x4=16"             -> "2x1+3x2+4x4=16"
- *      "4+x4-3+x1+x2-5x4-3x4=7+7-7" -> "1x1+1x2-7x4=6"
- *      "_x3-_7y+-4=_7y+5"           -> "-2_7y+1_x3=9"
- *      "5x+4y-9=7x-4y"              -> "-2x+8y=9"
- * ex. for non vaild equtions
- *      "2x1+3x2+4x4"
- *      "_x3-_7y+-4=" 
- *      "5x + 4y- 9= 7x-4y"
- *      "x@y3-7/y+-4=7" 
- *      "(xy3)-7y+-4=7*3"
+/******************************************************************************
+ * Copyright (C) 2020 by Hassan El-shazly
+ *
+ * Redistribution, modification or use of this software in source or binary
+ * forms is permitted as long as the files maintain this copyright.
+ *
+ *****************************************************************************/
+/**
+ *
+ * @author Hassan El-shazly
+ * @date Last Edit Aug-2020
+ *
  */
 
 #ifndef _LINEAR_EQUS_H_
@@ -31,32 +25,90 @@
 
 #include "matrix.h"
 
-using std::vector;
-using std::string;
 using std::map;
+using std::string;
+using std::vector;
 
 template <typename ValueType>
 class linear_equs
 {
 public:
+    /**
+     * Default constructor
+     */
     linear_equs();
 
-    linear_equs<ValueType>& push_equ(string str) ;
-    string get_equ(size_t index) ;
+    /**
+     * insert new equation to the system
+     * @return reference to the calling object
+     */
+    linear_equs<ValueType> &push_equ(string str);
 
-    vector<ValueType> get_var_coffs(const string var) ;
-    size_t get_num_of_vars()  ;
+    /**
+     * @return the equation in specific index
+     */
+    string get_equ(size_t index);
 
-    string add_equs(size_t equ1, size_t equ2) ;
-    string subtract_equs(size_t equ1, size_t equ2) ;
-    string substitute_equs(string var, size_t equ1, size_t equ2) ;
-    matrix<ValueType> get_coffs_mat()  ;
+    /**
+     * @return vector with the coffs of var
+     */
+    vector<ValueType> get_var_coffs(const string var);
 
-    ValueType get_coffs_det()  ;
-    matrix<ValueType> get_var_mat(string var) ;
-    ValueType get_var_det(string var) ;
-    map<string, ValueType> solve_by_cramer_method() ;
-    map<string, ValueType> solve_by_backSub() ;
+    /**
+     * @return total number of variables 
+     */
+    size_t get_num_of_vars();
+
+    /**
+     * add equations of indexes equ1 & equ2
+     * @return the resulting equation on string format 
+     */
+    string add_equs(size_t equ1, size_t equ2);
+
+    /**
+     * subtract equation[equ1] from equation[equ2]
+     * @return the resulting equation on string format
+     */
+    string subtract_equs(size_t equ1, size_t equ2);
+
+    /**
+     * Substitutes the variable var in equ1 by its equation in equ2
+     * @return the resulting equation on string format
+     */
+    string substitute_equs(string var, size_t equ1, size_t equ2);
+
+    /**
+     * @return matrix of all coffs of variables
+     */
+    matrix<ValueType> get_coffs_mat();
+
+    /**
+     * @return the determinant of the coffs matrix
+     */
+    ValueType get_coffs_det();
+
+    /**
+     * @return matrix of all coffs of variables except term_str
+     *         substituted with consts column
+     */
+    matrix<ValueType> get_var_mat(string var);
+
+    /**
+     * @return the determinant of the term_str matrix
+     */
+    ValueType get_var_det(string var);
+
+    /**
+     * solve the system using cramer method
+     * @return map of every variable with it's value
+     */
+    map<string, ValueType> solve_by_cramer_method();
+
+    /**
+     * solve the system using Gaussian elimination method
+     * @return map of every variable with it's value
+     */
+    map<string, ValueType> solve_by_backSub();
 
 private:
     bool init_flag;
@@ -70,16 +122,16 @@ private:
     ValueType cast_val(string str);
     ValueType evaluate(string str);
     string factor(string str);
-    linear_equs<ValueType>& init_coffs();
+    linear_equs<ValueType> &init_coffs();
     map<string, ValueType> init_equ(string str);
-    string convert(map<string, ValueType> equ) ;
-    map<string, ValueType> init_apart(string& str, 
-                        map<string, ValueType>& m, vector<string>& used, bool right);
+    string convert(map<string, ValueType> equ);
+    map<string, ValueType> init_apart(string &str,
+                                      map<string, ValueType> &m, vector<string> &used, bool right);
 };
-
-
 
 // include implemention
 #include "linear_equs_impl.h"
 
 #endif // End of the file
+       // 11300
+       // 610800
