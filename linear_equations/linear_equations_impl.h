@@ -1,3 +1,18 @@
+/******************************************************************************
+ * Copyright (C) 2020 by Hassan El-shazly
+ *
+ * Redistribution, modification or use of this software in source or binary
+ * forms is permitted as long as the files maintain this copyright.
+ *
+ *****************************************************************************/
+/**
+ *
+ * @author Hassan El-shazly
+ * @date Last Edit Aug-2020
+ *
+ */
+
+
 #ifndef _LINEAR_EQUATIONS_IMPL_H_
 #define _LINEAR_EQUATIONS_IMPL_H_
 
@@ -77,7 +92,7 @@ matrix<value_t> linear_equations<value_t>::get_term_matrix(const string &term_st
 {
     __init__();
     matrix<value_t> mat = const_matrix;
-    mat.replace_col(const_coffs, get_term_poision(term_str));
+    mat.replace_col(const_coffs, get_term_position(term_str));
     return mat;
 }
 
@@ -89,7 +104,7 @@ vector<value_t> linear_equations<value_t>::get_const_coffs()
 }
 
 template <typename value_t>
-uint32_t linear_equations<value_t>::get_term_poision(const string &term_str)
+uint32_t linear_equations<value_t>::get_term_position(const string &term_str)
 {
     uint32_t i = 0;
     for (const auto &var : vars)
@@ -98,14 +113,14 @@ uint32_t linear_equations<value_t>::get_term_poision(const string &term_str)
             return i;
         i++;
     }
-    throw out_of_range("linear_equations::term_poision -> non existing term");
+    throw out_of_range("linear_equations::term_position -> non existing term");
 }
 
 template <typename value_t>
 vector<value_t> linear_equations<value_t>::get_term_coffs(const string &term_str)
 {
     __init__();
-    return const_matrix.get_col(get_term_poision(term_str));
+    return const_matrix.get_col(get_term_position(term_str));
 }
 
 template <typename value_t>

@@ -1,9 +1,24 @@
+/******************************************************************************
+ * Copyright (C) 2020 by Hassan El-shazly
+ *
+ * Redistribution, modification or use of this software in source or binary
+ * forms is permitted as long as the files maintain this copyright.
+ *
+ *****************************************************************************/
+/**
+ *
+ * @author Hassan El-shazly
+ * @date Last Edit Aug-2020
+ *
+ */
+
 #ifndef _EQUATION_IMPL_H_
 #define _EQUATION_IMPL_H_
 
 #include <regex>
 
 using std::find;
+using std::move;
 using std::regex;
 using std::regex_search;
 using std::smatch;
@@ -23,6 +38,13 @@ equation<value_t>::equation()
 template <typename value_t>
 equation<value_t>::equation(const equation<value_t> &equ)
     : terms(equ.terms), constant(equ.constant)
+{
+    // do nothing
+}
+
+template <typename value_t>
+equation<value_t>::equation(const equation<value_t> &&equ)
+    : terms(move(equ.terms)), constant(move(equ.constant))
 {
     // do nothing
 }
@@ -305,7 +327,6 @@ equation<value_t> equation<value_t>::evaluate(const string &equ_str, int sign)
         {
             var = matched_temp[0];
             matched_temp = get_tokens(match, num_re);
-            // std::cout << "/  " << matched_temp[0] << "  " << equ_str.find(matched_temp[0]) << " /\n";
             if (matched_temp.size() == 0 || match.find(matched_temp[0]) != 0)
                 coff = static_cast<value_t>(1);
             else if (matched_temp[0] == "+")

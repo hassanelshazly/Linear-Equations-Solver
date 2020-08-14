@@ -1,3 +1,17 @@
+/******************************************************************************
+ * Copyright (C) 2020 by Hassan El-shazly
+ *
+ * Redistribution, modification or use of this software in source or binary
+ * forms is permitted as long as the files maintain this copyright.
+ *
+ *****************************************************************************/
+/**
+ *
+ * @author Hassan El-shazly
+ * @date Last Edit Aug-2020
+ *
+ */
+
 #ifndef _TERM_H_
 #define _TERM_H_
 
