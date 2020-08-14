@@ -2,6 +2,7 @@
 
 obj/
 gitignore/
+src/test_equation.cpp
 tests/test.txt
 tests/test_1000.txt
 *.out
